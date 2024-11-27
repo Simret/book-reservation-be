@@ -1,0 +1,47 @@
+name: Test and Deploy Nodejs Backend Service
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2   # Set up Node.js env't
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install              # Install all dependencies
+
+      - name: Run tests
+        run: npm test                 # Run the test suite
+
+      - name: Build and Deploy
+        uses: appleboy/ssh-action@v0.1.0
+        with:
+            host: ${{ secrets.SERVER_IP }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.PASSWORD }}
+            port: ${{ secrets.PORT }}
+            script: |
+                cd /home/monitor/nodejsapp
+                git pull origin main
+                npm install --production
+                npm install --productioN
+                sudo systemctl restart nodejsapp.service
+    
+          
+            
+        
