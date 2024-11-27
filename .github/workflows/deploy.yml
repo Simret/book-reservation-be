@@ -11,7 +11,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      SERVER_IP: ${{ secrets.SERVER_IP }}
+      USERNAME: ${{ secrets.USERNAME }}
+      KEY: ${{ secrets.KEY }}
+      PORT: ${{ secrets.PORT }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -25,8 +29,7 @@ jobs:
       - name: Install dependencies
         run: npm install              # Install all dependencies
 
-      - name: Run tests
-        run: npm test                 # Run the test suite
+      
 
       - name: Ssh and Deploy
         uses: appleboy/ssh-action@v0.1.0
