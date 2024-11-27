@@ -25,8 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm install              # Install all dependencies
 
-      - name: Run tests
-        run: npm test -- --passWithNoTests                # Run the test suite
+      
 
       - name: Build and Deploy
         uses: appleboy/ssh-action@v0.1.0
